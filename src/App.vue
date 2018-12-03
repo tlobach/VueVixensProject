@@ -5,7 +5,13 @@
         <div class="dogs-overlay">
           <h1 class="display-2 text-xs-center">Choose your favorite dogs</h1>
           <v-card class="dog-card">
-            <v-img height="400px" :src="currentDogLink"> </v-img>
+            <transition name="fade">
+              <v-img
+                v-if="currentDogLink"
+                height="400px"
+                :src="currentDogLink"
+              ></v-img>
+            </transition>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn
@@ -69,6 +75,7 @@ export default {
   },
   methods: {
     loadNewDog() {
+      this.currentDogLink = "";
       axios
         .get("https://dog.ceo/api/breeds/image/random")
         .then(response => {
@@ -121,5 +128,14 @@ h1 {
 .dog-card {
   width: 100%;
   max-width: 600px;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 1s ease;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
